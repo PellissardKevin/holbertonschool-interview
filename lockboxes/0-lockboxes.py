@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 
+
 def canUnlockAll(boxes):
     if not boxes:
         return False
@@ -22,4 +23,3 @@ def canUnlockAll(boxes):
 
     # If all boxes have been opened, return True
     return len(opened_boxes) == len(boxes)
-
