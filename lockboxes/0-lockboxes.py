@@ -1,7 +1,9 @@
 #!/usr/bin/python3
+"""Exercise to practice interview"""
 
 
 def canUnlockAll(boxes):
+    """Checks if all boxes can be unlocked"""
     if not boxes:
         return False
 
