@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 /**
  * find_insertion_point - Finds the next insertion point in the heap
  * @root: Root of the heap
@@ -10,36 +9,37 @@
  */
 heap_t *find_insertion_point(heap_t *root)
 {
-    if (root == NULL)
-    {
-        return NULL;
-    }
+	if (root == NULL)
+	{
+		return (NULL);
+	}
 
-    // Use a queue to perform level-order traversal
-    heap_t **queue = malloc(1024 * sizeof(heap_t *));
-    if (!queue)
-    {
-        return NULL;
-    }
-    int front = 0, rear = 0;
-    queue[rear++] = root;
+	heap_t **queue = malloc(1024 * sizeof(heap_t *));
 
-    while (front < rear)
-    {
-        heap_t *current = queue[front++];
+	if (!queue)
+	{
+		return (NULL);
+	}
+	int front = 0, rear = 0;
 
-        if (current->left == NULL || current->right == NULL)
-        {
-            free(queue);
-            return current;
-        }
+	queue[rear++] = root;
 
-        queue[rear++] = current->left;
-        queue[rear++] = current->right;
-    }
+	while (front < rear)
+	{
+		heap_t *current = queue[front++];
 
-    free(queue);
-    return NULL;
+		if (current->left == NULL || current->right == NULL)
+		{
+			free(queue);
+			return (current);
+		}
+
+		queue[rear++] = current->left;
+		queue[rear++] = current->right;
+	}
+
+	free(queue);
+	return (NULL);
 }
 
 /**
@@ -48,14 +48,15 @@ heap_t *find_insertion_point(heap_t *root)
  */
 void heapify_up(heap_t *node)
 {
-    while (node->parent != NULL && node->n > node->parent->n)
-    {
-        int temp = node->n;
-        node->n = node->parent->n;
-        node->parent->n = temp;
+	while (node->parent != NULL && node->n > node->parent->n)
+	{
+		int temp = node->n;
 
-        node = node->parent;
-    }
+		node->n = node->parent->n;
+		node->parent->n = temp;
+
+		node = node->parent;
+	}
 }
 
 /**
@@ -66,38 +67,40 @@ void heapify_up(heap_t *node)
  */
 heap_t *heap_insert(heap_t **root, int value)
 {
-    if (root == NULL)
-    {
-        return NULL;
-    }
+	if (root == NULL)
+	{
+		return (NULL);
+	}
 
-    if (*root == NULL)
-    {
-        *root = binary_tree_node(NULL, value);
-        return *root;
-    }
+	if (*root == NULL)
+	{
+		*root = binary_tree_node(NULL, value);
+		return (*root);
+	}
 
-    heap_t *insertion_point = find_insertion_point(*root);
-    if (insertion_point == NULL)
-    {
-        return NULL;
-    }
+	heap_t *insertion_point = find_insertion_point(*root);
 
-    heap_t *new_node = binary_tree_node(insertion_point, value);
-    if (new_node == NULL)
-    {
-        return NULL;
-    }
+	if (insertion_point == NULL)
+	{
+		return (NULL);
+	}
 
-    if (insertion_point->left == NULL)
-    {
-        insertion_point->left = new_node;
-    }
-    else
-    {
-        insertion_point->right = new_node;
-    }
+	heap_t *new_node = binary_tree_node(insertion_point, value);
 
-    heapify_up(new_node);
-    return new_node;
+	if (new_node == NULL)
+	{
+		return (NULL);
+	}
+
+	if (insertion_point->left == NULL)
+	{
+		insertion_point->left = new_node;
+	}
+	else
+	{
+		insertion_point->right = new_node;
+	}
+
+	heapify_up(new_node);
+	return (new_node);
 }
