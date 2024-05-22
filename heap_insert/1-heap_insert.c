@@ -121,27 +121,34 @@ int binary_tree_is_complete(const binary_tree_t *tree)
  */
 heap_t *heap_insert(heap_t **root, int value)
 {
-	if (!root)
-		return (NULL);
 	heap_t *new_node, *parent;
 
-	new_node = binary_tree_node(NULL, value);
+	if (!root)
+		return (NULL);
 
+	new_node = binary_tree_node(NULL, value);
 	if (!new_node)
 		return (NULL);
+
 	if (!*root)
 		return (*root = new_node);
+
 	parent = *root;
 	while (parent->left && parent->right)
+	{
 		parent = (binary_tree_is_perfect(parent) ||
 				  binary_tree_is_complete(parent))
 					 ? parent->left
 					 : parent->right;
+	}
+
 	if (!parent->left)
 		parent->left = new_node;
 	else
 		parent->right = new_node;
+
 	new_node->parent = parent;
+
 	while (new_node->parent && new_node->n > new_node->parent->n)
 	{
 		int temp = new_node->parent->n;
@@ -150,5 +157,6 @@ heap_t *heap_insert(heap_t **root, int value)
 		new_node->n = temp;
 		new_node = new_node->parent;
 	}
+
 	return (new_node);
 }
