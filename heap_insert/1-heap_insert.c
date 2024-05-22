@@ -1,5 +1,4 @@
 #include "binary_trees.h"
-#include <stdio.h>
 #include <stdlib.h>
 
 /**
@@ -9,24 +8,28 @@
  */
 heap_t *find_insertion_point(heap_t *root)
 {
+	heap_t **queue;
+	heap_t *current;
+	int front, rear;
+
 	if (root == NULL)
 	{
 		return (NULL);
 	}
 
-	heap_t **queue = malloc(1024 * sizeof(heap_t *));
-
+	queue = (heap_t **)malloc(1024 * sizeof(heap_t *));
 	if (!queue)
 	{
 		return (NULL);
 	}
-	int front = 0, rear = 0;
 
+	front = 0;
+	rear = 0;
 	queue[rear++] = root;
 
 	while (front < rear)
 	{
-		heap_t *current = queue[front++];
+		current = queue[front++];
 
 		if (current->left == NULL || current->right == NULL)
 		{
@@ -48,10 +51,11 @@ heap_t *find_insertion_point(heap_t *root)
  */
 void heapify_up(heap_t *node)
 {
+	int temp;
+
 	while (node->parent != NULL && node->n > node->parent->n)
 	{
-		int temp = node->n;
-
+		temp = node->n;
 		node->n = node->parent->n;
 		node->parent->n = temp;
 
@@ -67,6 +71,9 @@ void heapify_up(heap_t *node)
  */
 heap_t *heap_insert(heap_t **root, int value)
 {
+	heap_t *insertion_point;
+	heap_t *new_node;
+
 	if (root == NULL)
 	{
 		return (NULL);
@@ -78,15 +85,13 @@ heap_t *heap_insert(heap_t **root, int value)
 		return (*root);
 	}
 
-	heap_t *insertion_point = find_insertion_point(*root);
-
+	insertion_point = find_insertion_point(*root);
 	if (insertion_point == NULL)
 	{
 		return (NULL);
 	}
 
-	heap_t *new_node = binary_tree_node(insertion_point, value);
-
+	new_node = binary_tree_node(insertion_point, value);
 	if (new_node == NULL)
 	{
 		return (NULL);
