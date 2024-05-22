@@ -2,110 +2,159 @@
 #include <stdlib.h>
 
 /**
- * find_insertion_point - Finds the next insertion point in the heap
- * @root: Root of the heap
- * Return: Pointer to the node where the new node should be inserted
+ * binary_tree_is_leaf - checks if a node is a leaf
+ * @node: node to be checked
+ * Return: 1 if left. 0 if not leaf
  */
-heap_t *find_insertion_point(heap_t *root)
+int binary_tree_is_leaf(const binary_tree_t *node)
 {
-	heap_t **queue;
-	heap_t *current;
-	int front, rear;
+	if (node == NULL)
+		return (0);
 
-	if (root == NULL)
-	{
-		return (NULL);
-	}
+	if (node->left == NULL && node->right == NULL)
+		return (1);
 
-	queue = (heap_t **)malloc(1024 * sizeof(heap_t *));
-	if (!queue)
-	{
-		return (NULL);
-	}
+	return (0);
+}
+/**
+ * binary_tree_height - function that goes through the tree and mesure height
+ *@tree: tree to loop through
+ *
+ *Return: nothing
+ */
+size_t binary_tree_height(const binary_tree_t *tree)
+{
+	int height = 0, height2 = 0;
 
-	front = 0;
-	rear = 0;
-	queue[rear++] = root;
+	if (tree == NULL)
+		return (0);
+	if (tree->left == NULL && tree->right == NULL)
+		return (0);
 
-	while (front < rear)
-	{
-		current = queue[front++];
+	if (tree->left != NULL)
+		height = binary_tree_height(tree->left);
+	if (tree->right != NULL)
+		height2 = binary_tree_height(tree->right);
 
-		if (current->left == NULL || current->right == NULL)
-		{
-			free(queue);
-			return (current);
-		}
-
-		queue[rear++] = current->left;
-		queue[rear++] = current->right;
-	}
-
-	free(queue);
-	return (NULL);
+	if (height > height2)
+		return (height + 1);
+	else
+		return (height2 + 1);
 }
 
 /**
- * heapify_up - Maintains the Max Heap property by moving the node up
- * @node: The node to heapify up
+ * binary_tree_size - count all child nodes including the root
+ * @tree: tree to loop through
+ * Return: size of the tree
  */
-void heapify_up(heap_t *node)
+size_t binary_tree_size(const binary_tree_t *tree)
 {
-	int temp;
+	if (tree == NULL)
+		return (0);
+	return (binary_tree_size(tree->left) + binary_tree_size(tree->right) + 1);
+}
+/**
+ * binary_tree_is_perfect - checks if tree is perfect
+ *@tree: tree to check
+ *
+ *Return: 1 perfect 0 not
+ */
+int binary_tree_is_perfect(const binary_tree_t *tree)
+{
+	size_t size, i, j, sum = 0, pow;
 
-	while (node->parent != NULL && node->n > node->parent->n)
+	if (tree == NULL)
+		return (0);
+
+	size = binary_tree_size(tree);
+
+	for (i = 0; i <= binary_tree_height(tree); i++)
 	{
-		temp = node->n;
-		node->n = node->parent->n;
-		node->parent->n = temp;
-
-		node = node->parent;
+		for (j = 0, pow = 1; j < i; j++)
+			pow *= 2;
+		sum += pow;
 	}
+	if (sum == size)
+		return (1);
+	return (0);
+}
+/**
+ * binary_tree_is_complete - checks if a binary tree is complete
+ *
+ * @tree: the root node of the tree
+ * Return: 1 if is complete else 0
+ */
+int binary_tree_is_complete(const binary_tree_t *tree)
+{
+	size_t l_height, r_height;
+	binary_tree_t *left, *right;
+
+	if (tree == NULL)
+		return (0);
+	if (binary_tree_is_leaf(tree))
+		return (1);
+
+	left = tree->left;
+	right = tree->right;
+	l_height = binary_tree_height(left);
+	r_height = binary_tree_height(right);
+
+	if (l_height == r_height)
+	{
+		if (binary_tree_is_perfect(left) && binary_tree_is_complete(right))
+			return (1);
+	}
+	else if (l_height == r_height + 1)
+	{
+		if (binary_tree_is_complete(left) && binary_tree_is_perfect(right))
+			return (1);
+	}
+
+	return (0);
 }
 
 /**
  * heap_insert - Inserts a value into a Max Binary Heap
  * @root: Double pointer to the root node of the Heap
- * @value: The value to store in the node to be inserted
+ * @value: Value to store in the node to be inserted
  * Return: Pointer to the inserted node, or NULL on failure
  */
 heap_t *heap_insert(heap_t **root, int value)
 {
-	heap_t *insertion_point;
-	heap_t *new_node;
-
-	if (root == NULL)
-	{
+	if (!root)
 		return (NULL);
-	}
 
-	if (*root == NULL)
-	{
-		*root = binary_tree_node(NULL, value);
-		return (*root);
-	}
+	heap_t *new_node = binary_tree_node(NULL, value);
 
-	insertion_point = find_insertion_point(*root);
-	if (insertion_point == NULL)
-	{
+	if (!new_node)
 		return (NULL);
-	}
 
-	new_node = binary_tree_node(insertion_point, value);
-	if (new_node == NULL)
-	{
-		return (NULL);
-	}
+	if (!*root)
+		return (*root = new_node);
 
-	if (insertion_point->left == NULL)
-	{
-		insertion_point->left = new_node;
-	}
+	heap_t *parent = *root;
+
+	while (parent->left && parent->right)
+		parent = (binary_tree_is_perfect(parent) ||
+				  binary_tree_is_complete(parent))
+					 ? parent->left
+					 : parent->right;
+
+	if (!parent->left)
+		parent->left = new_node;
 	else
+		parent->right = new_node;
+
+	new_node->parent = parent;
+
+	while (new_node->parent && new_node->n > new_node->parent->n)
 	{
-		insertion_point->right = new_node;
+		int temp = new_node->parent->n;
+
+		new_node->parent->n = new_node->n;
+		new_node->n = temp;
+		new_node = new_node->parent;
 	}
 
-	heapify_up(new_node);
 	return (new_node);
 }
