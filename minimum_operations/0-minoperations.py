@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Exercise to practice interview"""
 
+
 def minOperations(n):
     """ Definition for """
     if n <= 1:
