@@ -65,7 +65,7 @@ int compare_halves(listint_t *first_half, listint_t *second_half)
  * @second_half: Pointer to the reversed second half of the list.
  */
 void restore_list(listint_t *prev_slow, listint_t *mid_node,
-					listint_t *second_half)
+				  listint_t *second_half)
 {
 	second_half = reverse_list(second_half);
 	if (mid_node != NULL)
@@ -91,6 +91,9 @@ int is_palindrome(listint_t **head)
 	int result = 1;
 
 	if (!head || !*head)
+		return (1);
+
+	if ((*head)->next == NULL)
 		return (1);
 
 	middle = find_middle(*head, &prev_slow);
