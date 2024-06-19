@@ -33,10 +33,6 @@ def print_statistics():
 def signal_handler(sig, frame):
     """
     Prints the stats obtained from the file when a keyboard interrupt occurs.
-
-    Args:
-    - sig: The signal number
-    - frame: The current stack frame
     """
     print_statistics()
 
