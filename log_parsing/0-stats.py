@@ -53,8 +53,5 @@ try:
         status_code_counts[line_parsed[length_line - 2]] += 1
         if line_count % 10 == 0:
             print_statistics()
-except KeyboardInterrupt:
+finally:
     print_statistics()
-    sys.exit(0)
-
-print_statistics()
