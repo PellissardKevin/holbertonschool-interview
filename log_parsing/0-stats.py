@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-    script that reads stdin line by line and computes metrics
+script that reads stdin line by line and computes metrics
 """
 import sys
 import signal
@@ -24,18 +24,21 @@ def print_statistics():
     """
     Prints the current statistics.
     """
-    print(f"File size: {total_file_size}")
+    print("File size: {}".format(total_file_size))
     for code in sorted(status_code_counts.keys()):
         if status_code_counts[code] > 0:
-            print(f"{code}: {status_code_counts[code]}")
+            print("{}: {}".format(code, status_code_counts[code]))
 
 
 def signal_handler(sig, frame):
     """
-    Handles the SIGINT signal (CTRL + C).
+    Prints the stats obtained from the file when a keyboard interrupt occurs.
+
+    Args:
+    - sig: The signal number
+    - frame: The current stack frame
     """
     print_statistics()
-    sys.exit(0)
 
 
 # Register the signal handler for SIGINT
@@ -46,7 +49,7 @@ try:
         line_parsed = line.split()
         length_line = len(line_parsed)
         if length_line < 2:
-             continue
+            continue
         total_file_size += int(line_parsed[length_line - 1])
         if line_parsed[length_line - 2] not in status_code_counts.keys():
             continue
