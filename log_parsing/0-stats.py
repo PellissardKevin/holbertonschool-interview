@@ -21,7 +21,9 @@ line_count = 0
 
 
 def print_statistics():
-    """Prints the current statistics."""
+    """
+    Prints the current statistics.
+    """
     print(f"File size: {total_file_size}")
     for code in sorted(status_code_counts.keys()):
         if status_code_counts[code] > 0:
@@ -29,7 +31,9 @@ def print_statistics():
 
 
 def signal_handler(sig, frame):
-    """Handles the SIGINT signal (CTRL + C)."""
+    """
+    Handles the SIGINT signal (CTRL + C).
+    """
     print_statistics()
     sys.exit(0)
 
@@ -50,9 +54,7 @@ try:
         if line_count % 10 == 0:
             print_statistics()
 except KeyboardInterrupt:
-    # Handle the keyboard interruption gracefully
     print_statistics()
     sys.exit(0)
 
-# Print remaining statistics if the loop exits naturally
 print_statistics()
