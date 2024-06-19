@@ -1,0 +1,55 @@
+#!/usr/bin/python3
+import sys
+import signal
+
+# Initialize global variables
+total_file_size = 0
+status_code_counts = {
+    "200": 0,
+    "301": 0,
+    "400": 0,
+    "401": 0,
+    "403": 0,
+    "404": 0,
+    "405": 0,
+    "500": 0,
+}
+line_count = 0
+
+
+def print_statistics():
+    """Prints the current statistics."""
+    print(f"File size: {total_file_size}")
+    for code in sorted(status_code_counts.keys()):
+        if status_code_counts[code] > 0:
+            print(f"{code}: {status_code_counts[code]}")
+
+
+def signal_handler(sig, frame):
+    """Handles the SIGINT signal (CTRL + C)."""
+    print_statistics()
+    sys.exit(0)
+
+
+# Register the signal handler for SIGINT
+signal.signal(signal.SIGINT, signal_handler)
+try:
+    for line in sys.stdin:
+        line_count += 1
+        line_parsed = line.split()
+        length_line = len(line_parsed)
+        if length_line < 2:
+             continue
+        total_file_size += int(line_parsed[length_line - 1])
+        if line_parsed[length_line - 2] not in status_code_counts.keys():
+            continue
+        status_code_counts[line_parsed[length_line - 2]] += 1
+        if line_count % 10 == 0:
+            print_statistics()
+except KeyboardInterrupt:
+    # Handle the keyboard interruption gracefully
+    print_statistics()
+    sys.exit(0)
+
+# Print remaining statistics if the loop exits naturally
+print_statistics()
