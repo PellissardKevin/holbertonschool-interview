@@ -9,14 +9,15 @@
  */
 avl_t *create_node(int value, avl_t *parent)
 {
-    avl_t *node = malloc(sizeof(avl_t));
-    if (!node)
-        return (NULL);
-    node->n = value;
-    node->parent = parent;
-    node->left = NULL;
-    node->right = NULL;
-    return (node);
+	avl_t *node = malloc(sizeof(avl_t));
+
+	if (!node)
+		return (NULL);
+	node->n = value;
+	node->parent = parent;
+	node->left = NULL;
+	node->right = NULL;
+	return (node);
 }
 
 /**
@@ -29,18 +30,19 @@ avl_t *create_node(int value, avl_t *parent)
  */
 avl_t *build_avl_tree(int *array, int start, int end, avl_t *parent)
 {
-    if (start > end)
-        return (NULL);
+	if (start > end)
+		return (NULL);
 
-    int mid = (start + end) / 2;
-    avl_t *root = create_node(array[mid], parent);
-    if (!root)
-        return (NULL);
+	int mid = (start + end) / 2;
+	avl_t *root = create_node(array[mid], parent);
 
-    root->left = build_avl_tree(array, start, mid - 1, root);
-    root->right = build_avl_tree(array, mid + 1, end, root);
+	if (!root)
+		return (NULL);
 
-    return (root);
+	root->left = build_avl_tree(array, start, mid - 1, root);
+	root->right = build_avl_tree(array, mid + 1, end, root);
+
+	return (root);
 }
 
 /**
@@ -51,8 +53,8 @@ avl_t *build_avl_tree(int *array, int start, int end, avl_t *parent)
  */
 avl_t *sorted_array_to_avl(int *array, size_t size)
 {
-    if (!array || size == 0)
-        return (NULL);
+	if (!array || size == 0)
+		return (NULL);
 
-    return (build_avl_tree(array, 0, size - 1, NULL));
+	return (build_avl_tree(array, 0, size - 1, NULL));
 }
