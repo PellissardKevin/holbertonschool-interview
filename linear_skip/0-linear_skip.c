@@ -1,6 +1,22 @@
 #include "search.h"
 
 /**
+ * find_last_node - Finds the last node in the list
+ * starting from the given node
+ * @start: Pointer to the starting node
+ *
+ * Return: Pointer to the last node
+ */
+skiplist_t *find_last_node(skiplist_t *start)
+{
+	skiplist_t *last_node = start;
+
+	while (last_node && last_node->next)
+		last_node = last_node->next;
+	return (last_node);
+}
+
+/**
  * linear_skip - Searches for a value in a sorted skip list
  * using the express lane
  * @head: Pointer to the head of the skip list
@@ -20,8 +36,7 @@ skiplist_t *linear_skip(skiplist_t *head, int value)
 	while (node->express && node->express->n < value)
 	{
 		printf("Value checked at index [%lu] = [%d]\n",
-			   node->express->index,
-			   node->express->n);
+			   node->express->index, node->express->n);
 		node = node->express;
 	}
 
@@ -34,9 +49,7 @@ skiplist_t *linear_skip(skiplist_t *head, int value)
 	}
 
 	/* Find the last node in the list */
-	last_node = node;
-	while (last_node->next)
-		last_node = last_node->next;
+	last_node = find_last_node(node);
 
 	/* At this point, node is at the beginning of the block to search in */
 	express_node = node;
@@ -48,12 +61,10 @@ skiplist_t *linear_skip(skiplist_t *head, int value)
 	while (express_node && express_node->index <= last_node->index)
 	{
 		printf("Value checked at index [%lu] = [%d]\n",
-			   express_node->index,
-			   express_node->n);
+			   express_node->index, express_node->n);
 		if (express_node->n == value)
 			return (express_node);
 		express_node = express_node->next;
 	}
-
 	return (NULL);
 }
