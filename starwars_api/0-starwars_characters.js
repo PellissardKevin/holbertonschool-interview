@@ -1,6 +1,7 @@
 #!/usr/bin/node
 
 const request = require("request");
+const punycode = require('punycode');
 
 // Base URL for the Star Wars API
 const BASE_URL = 'https://swapi.dev/api/films/';
