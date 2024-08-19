@@ -1,6 +1,6 @@
 #!/usr/bin/node
 
-const request = require("request");
+const request = require('request');
 
 // Base URL for the Star Wars API
 const BASE_URL = 'https://swapi.dev/api/films/';
@@ -8,7 +8,7 @@ const BASE_URL = 'https://swapi.dev/api/films/';
 function fetchCharacter(movieId) {
   const movieURL = `${BASE_URL}${movieId}`;
 
-  request(movieURL, { json: true }, async (error, response, body) => {
+  request(movieURL, { json: true }, (error, response, body) => {
     if (error) {
       console.error('Error fetching data:', error.message);
       return;
@@ -25,9 +25,14 @@ function fetchCharacter(movieId) {
 
     // Loop through the character URLs and fetch their names
     characterUrls.forEach((url) => {
-      request(url, { json: true }, (error, response, body, await) => {
+      request(url, { json: true }, (error, response, body) => {
         if (error) {
           console.error('Error fetching character data:', error.message);
+          return;
+        }
+
+        if (response.statusCode !== 200) {
+          console.error(`Failed to fetch character from ${url}: ${response.statusCode}`);
           return;
         }
 
@@ -37,12 +42,10 @@ function fetchCharacter(movieId) {
   });
 }
 
-
-const movieId = process.argv[2]
+const movieId = process.argv[2];
 
 if (!movieId) {
-  console.log('Please provide a movie ID as the first argument.')
-}
-else {
+  console.log('Please provide a movie ID as the first argument.');
+} else {
   fetchCharacter(movieId);
 }
