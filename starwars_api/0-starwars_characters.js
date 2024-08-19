@@ -5,7 +5,7 @@ const request = require('request');
 // Base URL for the Star Wars API
 const BASE_URL = 'https://swapi.dev/api/films/';
 
-function fetchCharacter(movieId) {
+function fetchCharacter (movieId) {
   const movieURL = `${BASE_URL}${movieId}/`;
 
   request(movieURL, { json: true }, (error, response, body) => {
@@ -24,16 +24,16 @@ function fetchCharacter(movieId) {
     const characterUrls = body.characters;
 
     // Function to fetch a single character
-    function fetchCharacterData(url) {
+    function fetchCharacterData (url) {
       return new Promise((resolve, reject) => {
         request(url, { json: true }, (error, response, body) => {
           if (error) {
-            reject(`Error fetching character data: ${error.message}`);
+            reject(new Error(`Error fetching character data: ${error.message}`));
             return;
           }
 
           if (response.statusCode !== 200) {
-            reject(`Failed to fetch character from ${url}: ${response.statusCode}`);
+            reject(new Error(`Failed to fetch character from ${url}: ${response.statusCode}`));
             return;
           }
 
@@ -43,13 +43,13 @@ function fetchCharacter(movieId) {
     }
 
     // Fetch characters sequentially
-    (async function fetchAllCharacters() {
+    (async function fetchAllCharacters () {
       for (const url of characterUrls) {
         try {
           const name = await fetchCharacterData(url);
           console.log(name);
         } catch (error) {
-          console.error(error);
+          console.error(error.message);
         }
       }
     })();
