@@ -2,6 +2,8 @@
 """
 Rain method
 """
+
+
 def rain(walls):
     left = 0
     right = (len(walls) - 1)
@@ -10,7 +12,6 @@ def rain(walls):
     right_max = 0
 
     quantity_rain = 0
-
 
     if not walls:
         return 0
@@ -30,5 +31,3 @@ def rain(walls):
             left += 1
 
     return quantity_rain
-
-
