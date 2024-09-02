@@ -11,7 +11,7 @@ void heap_sort(int *array, size_t size)
 {
 	int temp;
 
-	for (int i = (size/2) - 1; i >= 0; i--)
+	for (int i = (size / 2) - 1; i >= 0; i--)
 	{
 		siftDown(array, i, size - 1);
 	}
@@ -22,10 +22,9 @@ void heap_sort(int *array, size_t size)
 		array[i] = array[0];
 		array[0] = temp;
 
+		print_array(array, size);
 		siftDown(array, 0, i - 1);
 	}
-
-
 }
 
 void siftDown(int *array, int index, size_t size)
