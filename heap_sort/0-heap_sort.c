@@ -13,6 +13,7 @@ void heap_sort(int *array, size_t size)
 
 	for (int i = (size / 2) - 1; i >= 0; i--)
 	{
+		print_array(array, size);
 		siftDown(array, i, size - 1);
 	}
 
