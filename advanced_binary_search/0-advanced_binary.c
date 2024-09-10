@@ -1,6 +1,5 @@
 #include "search_algos.h"
 
-
 /**
  * print_array - function to print the current subarray
  * @array: pointer to the first element of the array
@@ -40,7 +39,7 @@ int recursive_binary(int *array, size_t left, size_t right, int value)
     if (array[mid] == value)
     {
         /* Check if it's the first occurrence */
-        if (mid == left || array[mid] != value)
+        if (mid == left || array[mid - 1] != value)
             return mid;
         /* Continue searching in the left half */
         return recursive_binary(array, left, mid, value);
