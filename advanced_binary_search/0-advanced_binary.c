@@ -43,7 +43,7 @@ int recursive_binary(int *array, size_t left, size_t right, int value)
         if (mid == left || array[mid - 1] != value)
             return mid;
         /* Continue searching in the left half */
-        return recursive_binary(array, left, mid - 1, value);
+        return recursive_binary(array, left, mid, value);  // Include the current mid in the left search
     }
     else if (array[mid] > value)
         return recursive_binary(array, left, mid - 1, value);
