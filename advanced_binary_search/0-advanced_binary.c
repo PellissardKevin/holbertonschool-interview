@@ -30,7 +30,7 @@ void print_array(int *array, size_t left, size_t right)
 int recursive_binary(int *array, size_t left, size_t right, int value)
 {
 	if (left > right)
-		return -1;
+		return (-1);
 
 	print_array(array, left, right);
 
@@ -40,14 +40,14 @@ int recursive_binary(int *array, size_t left, size_t right, int value)
 	{
 		/* Check if it's the first occurrence */
 		if (mid == left || array[mid - 1] != value)
-			return mid;
+			return (mid);
 		/* Continue searching in the left half */
-		return recursive_binary(array, left, mid, value);
+		return (recursive_binary(array, left, mid, value));
 	}
 	else if (array[mid] > value)
-		return recursive_binary(array, left, mid, value);
+		return (recursive_binary(array, left, mid, value));
 	else
-		return recursive_binary(array, mid + 1, right, value);
+		return (recursive_binary(array, mid + 1, right, value));
 }
 
 /**
@@ -63,5 +63,5 @@ int advanced_binary(int *array, size_t size, int value)
 	if (array == NULL || size == 0)
 		return -1;
 
-	return recursive_binary(array, 0, size - 1, value);
+	return (recursive_binary(array, 0, size - 1, value));
 }
