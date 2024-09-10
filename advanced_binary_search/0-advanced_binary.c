@@ -8,14 +8,14 @@
  */
 void print_array(int *array, size_t left, size_t right)
 {
-    printf("Searching in array: ");
-    for (size_t i = left; i <= right; i++)
-    {
-        printf("%d", array[i]);
-        if (i != right)
-            printf(", ");
-    }
-    printf("\n");
+	printf("Searching in array: ");
+	for (size_t i = left; i <= right; i++)
+	{
+		printf("%d", array[i]);
+		if (i != right)
+			printf(", ");
+	}
+	printf("\n");
 }
 
 /**
@@ -29,25 +29,25 @@ void print_array(int *array, size_t left, size_t right)
  */
 int recursive_binary(int *array, size_t left, size_t right, int value)
 {
-    if (left > right)
-        return -1;
+	if (left > right)
+		return -1;
 
-    print_array(array, left, right);
+	print_array(array, left, right);
 
-    size_t mid = left + (right - left) / 2;
+	size_t mid = left + (right - left) / 2;
 
-    if (array[mid] == value)
-    {
-        /* Check if it's the first occurrence */
-        if (mid == left || array[mid - 1] != value)
-            return mid;
-        /* Continue searching in the left half */
-        return recursive_binary(array, left, mid, value);
-    }
-    else if (array[mid] > value)
-        return recursive_binary(array, left, mid, value);
-    else
-        return recursive_binary(array, mid + 1, right, value);
+	if (array[mid] == value)
+	{
+		/* Check if it's the first occurrence */
+		if (mid == left || array[mid - 1] != value)
+			return mid;
+		/* Continue searching in the left half */
+		return recursive_binary(array, left, mid, value);
+	}
+	else if (array[mid] > value)
+		return recursive_binary(array, left, mid, value);
+	else
+		return recursive_binary(array, mid + 1, right, value);
 }
 
 /**
@@ -60,8 +60,8 @@ int recursive_binary(int *array, size_t left, size_t right, int value)
  */
 int advanced_binary(int *array, size_t size, int value)
 {
-    if (array == NULL || size == 0)
-        return -1;
+	if (array == NULL || size == 0)
+		return -1;
 
-    return recursive_binary(array, 0, size - 1, value);
+	return recursive_binary(array, 0, size - 1, value);
 }
