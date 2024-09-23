@@ -8,35 +8,35 @@
  */
 int heap_extract(heap_t **root)
 {
-    int extracted_value;
-    heap_t *last, *parent = NULL;
+	int extracted_value;
+	heap_t *last, *parent = NULL;
 
-    if (!root || !(*root))
-        return (0);
+	if (!root || !(*root))
+		return (0);
 
-    extracted_value = (*root)->n;
+	extracted_value = (*root)->n;
 
-    last = get_last_node(*root);
-    if (last == *root)
-    {
-        free(*root);
-        *root = NULL;
-        return (extracted_value);
-    }
+	last = get_last_node(*root);
+	if (last == *root)
+	{
+		free(*root);
+		*root = NULL;
+		return (extracted_value);
+	}
 
-    (*root)->n = last->n;
+	(*root)->n = last->n;
 
-    parent = last->parent;
-    if (parent->left == last)
-        parent->left = NULL;
-    else
-        parent->right = NULL;
+	parent = last->parent;
+	if (parent->left == last)
+		parent->left = NULL;
+	else
+		parent->right = NULL;
 
-    free(last);
+	free(last);
 
-    sift_down(*root);
+	sift_down(*root);
 
-    return (extracted_value);
+	return (extracted_value);
 }
 
 /**
@@ -47,28 +47,28 @@ int heap_extract(heap_t **root)
  */
 heap_t *get_last_node(heap_t *root)
 {
-    heap_t **queue;
-    size_t front = 0, rear = 0, size = 1024;
-    heap_t *last = NULL;
+	heap_t **queue;
+	size_t front = 0, rear = 0, size = 1024;
+	heap_t *last = NULL;
 
-    queue = malloc(sizeof(heap_t *) * size);
-    if (!queue)
-        return (NULL);
+	queue = malloc(sizeof(heap_t *) * size);
+	if (!queue)
+		return (NULL);
 
-    queue[rear++] = root;
+	queue[rear++] = root;
 
-    while (front < rear)
-    {
-        last = queue[front++];
+	while (front < rear)
+	{
+		last = queue[front++];
 
-        if (last->left)
-            queue[rear++] = last->left;
-        if (last->right)
-            queue[rear++] = last->right;
-    }
+		if (last->left)
+			queue[rear++] = last->left;
+		if (last->right)
+			queue[rear++] = last->right;
+	}
 
-    free(queue);
-    return (last);
+	free(queue);
+	return (last);
 }
 
 /**
@@ -77,24 +77,24 @@ heap_t *get_last_node(heap_t *root)
  */
 void sift_down(heap_t *node)
 {
-    heap_t *largest;
-    int temp;
+	heap_t *largest;
+	int temp;
 
-    while (node)
-    {
-        largest = node;
-        if (node->left && node->left->n > largest->n)
-            largest = node->left;
-        if (node->right && node->right->n > largest->n)
-            largest = node->right;
+	while (node)
+	{
+		largest = node;
+		if (node->left && node->left->n > largest->n)
+			largest = node->left;
+		if (node->right && node->right->n > largest->n)
+			largest = node->right;
 
-        if (largest == node)
-            return;
+		if (largest == node)
+			return;
 
-        temp = node->n;
-        node->n = largest->n;
-        largest->n = temp;
+		temp = node->n;
+		node->n = largest->n;
+		largest->n = temp;
 
-        node = largest;
-    }
+		node = largest;
+	}
 }
