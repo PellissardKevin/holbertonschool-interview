@@ -5,7 +5,6 @@
 int is_digit(char *str);
 void print_error_and_exit(void);
 void multiply(char *num1, char *num2);
-void print_number(char *num);
 
 /**
  * is_digit - check if the str is an number
@@ -57,7 +56,7 @@ void multiply(char *num1, char *num2)
 	while (num2[len2])
 		len2++;
 
-	result = calloc(len1 + len2, sizeof(int));
+	result = malloc(len1 + len2, sizeof(int));
 	if (result == NULL)
 		print_error_and_exit();
 
