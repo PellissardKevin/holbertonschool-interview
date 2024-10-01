@@ -10,8 +10,8 @@ void print_number(char *num);
 /**
  * is_digit - check if the str is an number
  *
- * @str - string to check
- * Return int
+ * @str: string to check
+ * Return: 1 if is digit, 0 if not
  */
 int is_digit(char *str)
 {
@@ -50,13 +50,14 @@ void print_error_and_exit(void)
 void multiply(char *num1, char *num2)
 {
 	int len1 = 0, len2 = 0, i, j, mul, sum;
-	int *result = calloc(len1 + len2, sizeof(int));
+	int *result;
 
 	while (num1[len1])
 		len1++;
 	while (num2[len2])
 		len2++;
 
+	result = calloc(len1 + len2, sizeof(int));
 	if (result == NULL)
 		print_error_and_exit();
 
@@ -92,7 +93,7 @@ void multiply(char *num1, char *num2)
  *
  * @argc: number of the argument
  * @argv: list of the argument
- * Return int
+ * Return: 0 with success
  */
 int main(int argc, char *argv[])
 {
