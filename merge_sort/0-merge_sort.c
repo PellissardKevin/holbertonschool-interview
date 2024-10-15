@@ -1,7 +1,8 @@
 #include "sort.h"
 
 /**
- * merge_sort - function that sorts an array of integers in ascending order using the Merge Sort algorithm
+ * merge_sort - function that sorts an array of integers in ascending order
+ * using the Merge Sort algorithm
  *
  * @array: the array to merge sort
  * @size: the size of the array
@@ -40,7 +41,7 @@ void merge_sort_recursive(int *array, int *temp, size_t start, size_t end)
 	if (start >= end)
 		return;
 
-	size_t mid = (start + end) / 2;
+	size_t mid = start + (end - start + 1) / 2 - 1;
 
 	merge_sort_recursive(array, temp, start, mid);
 	merge_sort_recursive(array, temp, mid + 1, end);
@@ -71,7 +72,6 @@ void merge(int *array, int *temp, size_t start, size_t mid, size_t end)
 {
 	size_t i = start, j = mid + 1, k = start;
 
-	// Copy array into temp for merging
 	for (size_t t = start; t <= end; t++)
 		temp[t] = array[t];
 
