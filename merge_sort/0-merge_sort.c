@@ -10,79 +10,82 @@
  */
 void merge_sort(int *array, size_t size)
 {
-	size_t mid = size / 2;
-	int *left = malloc(mid * sizeof(int));
-	int *right = malloc((size - mid) * sizeof(int));
+	int *temp = malloc(size * sizeof(int));
 
 	if (size <= 1)
 		return;
 
-	if (left == NULL || right == NULL)
+	if (temp == NULL)
 	{
 		fprintf(stderr, "Memory allocation failed\n");
 		return;
 	}
 
-	for (size_t i = 0; i < mid; i++)
-	{
-		left[i] = array[i];
-	}
-	for (size_t i = mid; i < size; i++)
-	{
-		right[i - mid] = array[i];
-	}
+	merge_sort_recursive(array, temp, 0, size - 1);
 
-	merge_sort(left, mid);
-	merge_sort(right, size - mid);
+	free(temp);
+}
+
+/**
+ * merge_sort_recursive - recursive function for merge sort
+ * @array: the array to sort
+ * @temp: temporary array used for merging
+ * @start: the starting index of the subarray to sort
+ * @end: the ending index of the subarray to sort
+ *
+ * Return: void
+ */
+void merge_sort_recursive(int *array, int *temp, size_t start, size_t end)
+{
+	if (start >= end)
+		return;
+
+	size_t mid = (start + end) / 2;
+
+	merge_sort_recursive(array, temp, start, mid);
+	merge_sort_recursive(array, temp, mid + 1, end);
 
 	printf("Merging...\n");
 	printf("[left]: ");
-	print_array(left, mid);
+	print_array(array + start, mid - start + 1);
 	printf("[right]: ");
-	print_array(right, size - mid);
+	print_array(array + mid + 1, end - mid);
 
-	merge(array, left, right, mid, size - mid);
-	
+	merge(array, temp, start, mid, end);
+
 	printf("[Done]: ");
-	print_array(array, size);
-
-	free(left);
-	free(right);
+	print_array(array + start, end - start + 1);
 }
 
 /**
  * merge - merges two sorted subarrays into one sorted array
  * @array: the original array where the merged result will be placed
- * @left: the left sorted subarray
- * @right: the right sorted subarray
- * @left_size: size of the left subarray
- * @right_size: size of the right subarray
+ * @temp: temporary array used during merging
+ * @start: the starting index of the left subarray
+ * @mid: the ending index of the left subarray and mid-point of the array
+ * @end: the ending index of the right subarray
  *
  * Return: void
  */
-void merge(int *array, int *left, int *right, size_t left_size, size_t right_size)
+void merge(int *array, int *temp, size_t start, size_t mid, size_t end)
 {
-	size_t i = 0, j = 0, k = 0;
+	size_t i = start, j = mid + 1, k = start;
 
-	while (i < left_size && j < right_size)
+	// Copy array into temp for merging
+	for (size_t t = start; t <= end; t++)
+		temp[t] = array[t];
+
+	while (i <= mid && j <= end)
 	{
-		if (left[i] <= right[j])
-		{
-			array[k++] = left[i++];
-		}
+		if (temp[i] <= temp[j])
+			array[k++] = temp[i++];
 		else
-		{
-			array[k++] = right[j++];
-		}
+			array[k++] = temp[j++];
 	}
 
-	while (i < left_size)
-	{
-		array[k++] = left[i++];
-	}
+	while (i <= mid)
+		array[k++] = temp[i++];
 
-	while (j < right_size)
-	{
-		array[k++] = right[j++];
-	}
+	while (j <= end)
+		array[k++] = temp[j++];
 }

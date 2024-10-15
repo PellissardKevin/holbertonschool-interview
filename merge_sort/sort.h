@@ -7,6 +7,7 @@
 
 void print_array(const int *array, size_t size);
 void merge_sort(int *array, size_t size);
-void merge(int *array, int *left, int *right, size_t left_size, size_t right_size);
+void merge_sort_recursive(int *array, int *temp, size_t start, size_t end);
+void merge(int *array, int *temp, size_t start, size_t mid, size_t end);
 
 #endif /* SORT_H */
