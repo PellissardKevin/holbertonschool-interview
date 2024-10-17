@@ -14,7 +14,10 @@ void merge_sort(int *array, size_t size)
 	int *temp = malloc(size * sizeof(int));
 
 	if (size <= 1)
-		return;
+		{
+			free(temp);
+			return;
+		}
 
 	if (temp == NULL)
 	{
