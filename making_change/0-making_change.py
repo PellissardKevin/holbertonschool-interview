@@ -1,7 +1,7 @@
 #!/usr/bin/python3
+"""Algorithm exercices"""
 
 def makeChange(coins, total):
-    """Algorithm exercices"""
     if total <= 0:
         return 0
 
