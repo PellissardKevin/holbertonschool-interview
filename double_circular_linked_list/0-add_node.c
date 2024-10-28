@@ -5,7 +5,7 @@
  *
  * @list: the list to modify
  * @str: the string to copy into the new node
- * Returns: Address of the new node, or NULL on failure
+ * Return: Address of the new node, or NULL on failure
  */
 List *add_node_end(List **list, char *str)
 {
@@ -48,7 +48,7 @@ List *add_node_end(List **list, char *str)
  *
  * @list: the list to modify
  * @str: the string to copy into the new node
- * Returns: Address of the new node, or NULL on failure
+ * Return: Address of the new node, or NULL on failure
  */
 List *add_node_begin(List **list, char *str)
 {
