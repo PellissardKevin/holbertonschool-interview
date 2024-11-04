@@ -18,7 +18,7 @@ int getMax(int *arr, size_t n)
 		if (arr[i] > mx)
 			mx = arr[i];
 
-	return mx;
+	return (mx);
 }
 
 /**
