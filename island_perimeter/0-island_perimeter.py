@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 def island_perimeter(grid):
     """"
     function to define a perimeter of island
