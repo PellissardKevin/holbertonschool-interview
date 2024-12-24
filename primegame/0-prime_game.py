@@ -6,9 +6,11 @@ PrimeGame Definition
 
 def isWinner(x, nums):
     """
-    Determines the winner of a game played over x rounds where Maria and Ben choose prime numbers optimally.
+    Determines the winner of a game played over x rounds where Maria
+    and Ben choose prime numbers optimally.
     :param x: Number of rounds.
-    :param nums: Array of integers where each element represents the upper limit n for the round.
+    :param nums: Array of integers where each element represents
+    the upper limit n for the round.
     :return: Name of the player who won the most rounds or None if it's a tie.
     """
     if x < 1 or not nums:
